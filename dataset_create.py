@@ -5,16 +5,11 @@ data = []
 n = 10000
 
 for i in range(n):
-
-    # Performance distribution (Option B)
     performance = np.random.choice(
         ["High", "Medium", "Low"],
         p=[0.3, 0.4, 0.3]
     )
-
-    # -------------------------------
     # Meetings-based Attendance
-    # -------------------------------
     meetings_scheduled = np.random.randint(20, 50)
 
     if performance == "High":
@@ -25,10 +20,6 @@ for i in range(n):
         meetings_attended = int(meetings_scheduled * np.random.uniform(0.4, 0.65))
 
     attendance = int((meetings_attended / meetings_scheduled) * 100)
-
-    # -------------------------------
-    # Core Features (with overlap)
-    # -------------------------------
     if performance == "High":
         sprint = np.random.randint(75, 100)
         quality = np.random.randint(75, 100)
@@ -53,23 +44,13 @@ for i in range(n):
         tasks_assigned = np.random.randint(8, 15)
         tasks_completed = int(tasks_assigned * np.random.uniform(0.40, 0.65))
 
-    # Clip values
     communication = max(1, min(10, communication))
-
-    # -------------------------------
     # Punctuality
-    # -------------------------------
     punctuality = np.random.choice([1, 0], p=[0.7, 0.3])
 
-    # -------------------------------
-    # Noise (avoid overfitting)
-    # -------------------------------
     if np.random.rand() < 0.1:
         performance = np.random.choice(["High", "Medium", "Low"])
 
-    # -------------------------------
-    # Append row
-    # -------------------------------
     data.append([
         meetings_scheduled, meetings_attended,
         attendance, punctuality,
@@ -78,7 +59,6 @@ for i in range(n):
         tasks_assigned, tasks_completed,
         performance
     ])
-
 # Create DataFrame
 df = pd.DataFrame(data, columns=[
     "Meetings_Scheduled", "Meetings_Attended",
@@ -88,9 +68,7 @@ df = pd.DataFrame(data, columns=[
     "Tasks_Assigned", "Tasks_Completed",
     "Performance"
 ])
-
 # Save CSV
 df.to_csv("../dataset/intern_performance_10k.csv", index=False)
-
-print("✅ Advanced 10K Dataset Generated Successfully!")
+print("Advanced 10K Dataset Generated Successfully!")
 print(df.head())
