@@ -11,12 +11,6 @@ print(f"\nOriginal dataset size: {len(df)} records")
 
 # Function to validate if Performance label matches the actual metrics
 def is_consistent(row):
-    """
-    Check if the Performance label is consistent with the actual metrics.
-    High: Usually high scores in key metrics (Sprint, Quality, Communication)
-    Low: Usually low scores in key metrics
-    Medium: Mixed scores
-    """
     performance = row['Performance']
     sprint = row['Sprint_Completion']
     quality = row['Task_Quality']
@@ -27,7 +21,6 @@ def is_consistent(row):
     on_time_delivery = row['On_Time_Delivery']
     
     if performance == 'High':
-        # High performers should have high scores in at least 3 of these: Sprint, Quality, Communication
         high_score_count = sum([
             sprint >= 75,
             quality >= 75,
@@ -38,7 +31,6 @@ def is_consistent(row):
         return high_score_count >= 3
     
     elif performance == 'Low':
-        # Low performers should have low scores in at least 3 of these: Sprint, Quality, Communication
         low_score_count = sum([
             sprint <= 60,
             quality <= 60,
@@ -48,11 +40,9 @@ def is_consistent(row):
         ])
         return low_score_count >= 3
     
-    else:  # Medium
-        # Medium performers have mixed scores (no extreme patterns)
+    else:  
         high_count = sum([sprint >= 75, quality >= 75, comm >= 6])
         low_count = sum([sprint <= 60, quality <= 60, comm <= 4])
-        # Should not be all high or all low
         return not (high_count >= 3 or low_count >= 3)
 
 # Apply consistency check
@@ -72,14 +62,14 @@ if inconsistent_records > 0:
 # Keep only consistent records
 df_cleaned = df[consistent_mask].reset_index(drop=True)
 
-print(f"\n✅ Cleaned dataset size: {len(df_cleaned)} records")
-print(f"🗑️  Removed: {inconsistent_records} records ({(inconsistent_records/len(df)*100):.1f}%)")
+print(f"\n Cleaned dataset size: {len(df_cleaned)} records")
+print(f" Removed: {inconsistent_records} records ({(inconsistent_records/len(df)*100):.1f}%)")
 
 # Save cleaned dataset
 output_file = "../dataset/intern_performance_cleaned.csv"
 df_cleaned.to_csv(output_file, index=False)
 
-print(f"\n✅ Cleaned dataset saved to: {output_file}")
+print(f"\n Cleaned dataset saved to: {output_file}")
 
 # Print summary statistics
 print("\n" + "=" * 80)
