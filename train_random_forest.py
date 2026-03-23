@@ -28,10 +28,8 @@ def main() -> None:
     y_train = pd.read_csv(y_train_path)
     X_test = pd.read_csv(x_test_path)
     y_test = pd.read_csv(y_test_path)
-
     y_train_series = y_train.iloc[:, 0]
     y_test_series = y_test.iloc[:, 0]
-
     feature_columns = list(X_train.columns)
 
     # Encode string labels to integers
@@ -73,7 +71,6 @@ def main() -> None:
 
     model_path = models_dir / "best_model_random_forest.joblib"
     joblib.dump(bundle, model_path)
-
     print(f"Random Forest Test Accuracy: {test_acc:.4f}")
 
 if __name__ == "__main__":
