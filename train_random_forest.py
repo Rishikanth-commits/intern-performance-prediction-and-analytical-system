@@ -41,6 +41,9 @@ def main() -> None:
     # Build RF pipeline (imputation + model)
     rf = RandomForestClassifier(
         n_estimators=500,
+        max_depth=8,
+        min_samples_split=10,
+        min_samples_leaf=5,
         random_state=42,
         n_jobs=-1,
         class_weight="balanced",
