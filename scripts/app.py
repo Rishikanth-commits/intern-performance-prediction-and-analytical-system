@@ -45,7 +45,7 @@ FEATURE_COLUMNS = feature_columns
 
 # Load HTML frontend
 def load_frontend_html():
-    frontend_path = project_root / "frontend.html"
+    frontend_path = base_dir / "frontend.html"
     if frontend_path.exists():
         try:
             with open(frontend_path, 'r', encoding='utf-8') as f:
