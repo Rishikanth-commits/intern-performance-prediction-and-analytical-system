@@ -328,7 +328,7 @@
             loading.classList.add('show');
 
             try {
-                const response = await fetch(`http://127.0.0.1:8000/predict-by-id?id=${internId}`);
+                const response = await fetch(`/predict-by-id?id=${internId}`);
                 const data = await response.json();
 
                 if (!response.ok) throw new Error(data.error || 'Failed to fetch intern data');

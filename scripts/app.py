@@ -222,12 +222,15 @@ def model_info():
         "features": FEATURE_COLUMNS
     })
 
+import os
+
 if __name__ == "__main__":
     # Run Flask development server
+    port = int(os.environ.get("PORT", 8000))
     print("\n" + "="*60)
     print(" Flask Intern Performance Prediction API")
     print("="*60)
-    print(" Running on: http://127.0.0.1:8000")
-    print(" API Docs: http://127.0.0.1:8000/")
+    print(f" Running on: http://0.0.0.0:{port}")
+    print(f" API Docs: http://0.0.0.0:{port}/")
     print("="*60 + "\n")
-    app.run(host="127.0.0.1", port=8000, debug=False)
+    app.run(host="0.0.0.0", port=port, debug=False)
