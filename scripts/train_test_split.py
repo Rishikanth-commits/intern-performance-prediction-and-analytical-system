@@ -4,6 +4,11 @@ from sklearn.model_selection import train_test_split
 # Read cleaned dataset
 df = pd.read_csv("../dataset/intern_performance_cleaned.csv")
 
+# Apply Feature Engineering dynamically
+import feature_engineering
+print("\nApplying Feature Engineering logic to dataset...")
+df = feature_engineering.apply_feature_engineering(df)
+
 print("=" * 80)
 print("TRAIN-TEST SPLIT (80-20)")
 print("=" * 80)
@@ -35,10 +40,10 @@ print("FILES SAVED")
 print("=" * 80)
 
 print("""
- X_train.csv  → Training features (6,538records)
- y_train.csv  → Training target (6,538 records)
- X_test.csv   → Testing features (1,635 records)
- y_test.csv   → Testing target (1,635 records)
+ X_train.csv  -> Training features
+ y_train.csv  -> Training target
+ X_test.csv   -> Testing features
+ y_test.csv   -> Testing target
 """)
 
 # Class distribution in training set

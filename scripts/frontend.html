@@ -4,162 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intern Assessment DB</title>
+    <title>Intern Performance Evaluation</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            background-color: #0f172a; /* Dark background */
+            color: #f8fafc; /* Light text */
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            max-width: 600px;
+            background: #1e293b; /* Slate-800 */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid #334155;
+            padding: 30px;
+            max-width: 650px;
             width: 100%;
         }
 
         .header {
             text-align: center;
             margin-bottom: 25px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 15px;
         }
 
         .header h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 26px;
+            color: #f8fafc;
+            font-size: 24px;
         }
 
         .header p {
-            color: #666;
+            color: #94a3b8;
             font-size: 14px;
+            margin-top: 5px;
         }
 
         .search-container {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .search-container input {
             flex: 1;
-            padding: 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 12px 15px;
+            background-color: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            font-size: 15px;
         }
 
         .search-container input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #3b82f6;
+        }
+
+        .search-container input::placeholder {
+            color: #64748b;
         }
 
         .search-container button {
-            padding: 14px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0 25px;
+            background-color: #3b82f6;
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background-color 0.2s;
         }
 
         .search-container button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            background-color: #2563eb;
         }
 
         .hint {
             text-align: center;
-            font-size: 12px;
-            color: #888;
+            font-size: 13px;
+            color: #64748b;
             margin-bottom: 25px;
         }
 
-        /* Results Section */
+        /* Results Display */
         .results {
             display: none;
-            animation: fadeIn 0.5s;
         }
 
         .results.show {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .intern-profile {
-            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0f172a;
             padding: 15px 20px;
             border-radius: 8px;
-            border-left: 4px solid #667eea;
+            border: 1px solid #334155;
             margin-bottom: 20px;
+        }
+
+        .intern-profile h3 {
+            color: #f1f5f9;
+            font-size: 20px;
+        }
+
+        .intern-profile span {
+            background: #334155;
+            color: #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .metric-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 12px 15px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .intern-profile h3 {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .intern-profile span {
-            font-size: 14px;
-            color: #666;
-            background: #e0e0e0;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-            background: #fff;
-            border: 1px solid #eee;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
+        .metric-item span {
+            color: #94a3b8;
             font-size: 13px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #f0f0f0;
+            font-weight: 500;
         }
 
         .metric-item strong {
-            color: #333;
+            color: #f8fafc;
+            font-size: 15px;
         }
 
+        /* Models Container */
         .models-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -168,119 +172,87 @@
         }
 
         .model-card {
+            background: #0f172a;
+            border: 1px solid #334155;
             padding: 15px;
             border-radius: 8px;
             text-align: center;
         }
 
-        .model-card.rf {
-            background: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            color: #2e7d32;
-        }
-
-        .model-card.xgb {
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
-            color: #1565c0;
-        }
-
-        .model-card.dt {
-            background: #fff3e0;
-            border: 1px solid #ffe0b2;
-            color: #e65100;
-        }
-
-        .verdict {
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            color: white;
+        .model-name {
+            color: #94a3b8;
+            font-size: 11px;
             font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .model-output {
             font-size: 18px;
+            font-weight: bold;
         }
 
-        .verdict.high {
-            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+        /* Colors for Outputs */
+        .High { color: #10b981; } /* Emerald */
+        .Medium { color: #3b82f6; } /* Blue */
+        .Low { color: #ef4444; } /* Red */
+
+        /* Final Verdict */
+        .verdict-box {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .verdict.medium {
-            background: linear-gradient(135deg, #2196f3 0%, #1565c0 100%);
-        }
+        .verdict-high { background-color: #059669; }
+        .verdict-medium { background-color: #2563eb; }
+        .verdict-low { background-color: #dc2626; }
 
-        .verdict.low {
-            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
-        }
-
-        .verdict.mismatch {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-        }
-
-        /* Loading & Errors */
+        /* Loading & Error */
         .loading {
             text-align: center;
-            color: #667eea;
-            display: none;
+            color: #94a3b8;
             padding: 20px;
+            display: none;
         }
 
-        .loading.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+        .loading.show { display: block; }
 
         .error {
-            background: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            background: rgba(220, 38, 38, 0.2);
+            color: #fca5a5;
+            padding: 12px;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            border-radius: 6px;
+            margin-top: 10px;
             display: none;
-            border-left: 4px solid #f44336;
+            text-align: center;
         }
 
-        .error.show {
-            display: block;
-        }
+        .error.show { display: block; }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>Intern AI Evaluation</h1>
+            <h1>Intern Predictive Analytics</h1>
+            <p>Evaluation System & Machine Learning Pipeline</p>
         </div>
 
         <form id="searchForm">
             <div class="search-container">
-                <input type="text" id="internId" placeholder="Enter Intern ID (e.g., INT001, INT042)" required>
+                <input type="text" id="internId" placeholder="Enter Intern ID (e.g. INT012)" required>
                 <button type="submit">Evaluate</button>
             </div>
-            <div class="hint">Try searching for <strong>INT001</strong> to <strong>INT100</strong></div>
+            <div class="hint">Search range: <strong style="color: #cbd5e1;">INT001</strong> to <strong style="color: #cbd5e1;">INT100</strong></div>
         </form>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>Fetching records...
-        </div>
+        <div class="loading" id="loading">Loading AI Predictions...</div>
         <div class="error" id="error"></div>
 
         <div class="results" id="results">
@@ -289,27 +261,26 @@
                 <span id="resId">INT-000</span>
             </div>
 
-            <div class="metrics-grid" id="metricsContainer"></div>
+            <div class="metrics-grid" id="metricsContainer">
+                <!-- Injected via Script -->
+            </div>
 
             <div class="models-container">
-                <div class="model-card rf">
-                    <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
-                        Random Forest</div>
-                    <div id="rfResult" style="font-size: 22px; font-weight: bold;">-</div>
+                <div class="model-card">
+                    <div class="model-name">Random Forest</div>
+                    <div id="rfResult" class="model-output">-</div>
                 </div>
-                <div class="model-card xgb">
-                    <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
-                        XGBoost</div>
-                    <div id="xgbResult" style="font-size: 22px; font-weight: bold;">-</div>
+                <div class="model-card">
+                    <div class="model-name">XGBoost</div>
+                    <div id="xgbResult" class="model-output">-</div>
                 </div>
-                <div class="model-card dt">
-                    <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">
-                        Decision Tree</div>
-                    <div id="dtResult" style="font-size: 22px; font-weight: bold;">-</div>
+                <div class="model-card">
+                    <div class="model-name">Decision Tree</div>
+                    <div id="dtResult" class="model-output">-</div>
                 </div>
             </div>
 
-            <div class="verdict" id="verdictBox"></div>
+            <div id="verdictBox" class="verdict-box"></div>
         </div>
     </div>
 
@@ -331,40 +302,41 @@
                 const response = await fetch(`/predict-by-id?id=${internId}`);
                 const data = await response.json();
 
-                if (!response.ok) throw new Error(data.error || 'Failed to fetch intern data');
+                if (!response.ok) throw new Error(data.error || 'Failed to fetch data');
 
-                // Fill Profile
+                // Profile
                 document.getElementById('resName').textContent = data.name;
                 document.getElementById('resId').textContent = data.intern_id;
 
-                // Fill Metrics
+                // Metrics
                 const m = data.fetched_metrics;
+                const tasksDone = m.Tasks_Completed;
+                const tasksTotal = m.Tasks_Assigned;
+                const taskRate = Math.round((tasksDone / tasksTotal) * 100);
+
                 document.getElementById('metricsContainer').innerHTML = `
                     <div class="metric-item"><span>Sprint Completion</span> <strong>${m.Sprint_Completion}%</strong></div>
-                    <div class="metric-item"><span>Task Quality</span> <strong>${m.Task_Quality}/100</strong></div>
+                    <div class="metric-item"><span>Task Quality</span> <strong>${m.Task_Quality} / 100</strong></div>
                     <div class="metric-item"><span>Attendance</span> <strong>${m.Attendance}%</strong></div>
                     <div class="metric-item"><span>On-Time Delivery</span> <strong>${m.On_Time_Delivery}%</strong></div>
-                    <div class="metric-item"><span>Communication</span> <strong>${m.Communication}/10</strong></div>
-                    <div class="metric-item"><span>Tasks (Done/Assigned)</span> <strong>${m.Tasks_Completed} / ${m.Tasks_Assigned}</strong></div>
+                    <div class="metric-item"><span>Communication</span> <strong>${m.Communication * 10}%</strong></div>
+                    <div class="metric-item"><span>Tasks Rate</span> <strong>${taskRate}% (${tasksDone}/${tasksTotal})</strong></div>
                 `;
 
-                // Fill Predictions
+                // Predictions
                 document.getElementById('rfResult').textContent = data.random_forest;
+                document.getElementById('rfResult').className = `model-output ${data.random_forest}`;
+
                 document.getElementById('xgbResult').textContent = data.xgboost;
+                document.getElementById('xgbResult').className = `model-output ${data.xgboost}`;
+
                 document.getElementById('dtResult').textContent = data.decision_tree;
+                document.getElementById('dtResult').className = `model-output ${data.decision_tree}`;
 
                 // Final Verdict
                 const verdictBox = document.getElementById('verdictBox');
-                if (data.agreement === "Unanimous") {
-                    verdictBox.textContent = ` Unanimous Agreement: ${data.final_verdict} Performer`;
-                    verdictBox.className = `verdict ${data.final_verdict.toLowerCase()}`;
-                } else if (data.agreement === "Soft Vote") {
-                    verdictBox.textContent = ` AI Ensemble Decision: ${data.final_verdict} Performer`;
-                    verdictBox.className = `verdict ${data.final_verdict.toLowerCase()}`;
-                } else {
-                    verdictBox.textContent = ` Confidence-Weighted Decision: ${data.final_verdict}`;
-                    verdictBox.className = `verdict ${data.final_verdict.toLowerCase()}`;
-                }
+                verdictBox.textContent = `Verdict: ${data.final_verdict} Performer`;
+                verdictBox.className = `verdict-box verdict-${data.final_verdict.toLowerCase()}`;
 
                 results.classList.add('show');
             } catch (err) {

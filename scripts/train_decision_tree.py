@@ -6,7 +6,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_score, f1_score
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_score, f1_score, roc_curve, auc, roc_auc_score, log_loss
+from sklearn.preprocessing import label_binarize
+from itertools import cycle
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -52,6 +54,7 @@ def main() -> None:
     # Train and test
     dt_pipeline.fit(X_train, y_train_int)
     y_test_pred = dt_pipeline.predict(X_test)
+    y_test_proba = dt_pipeline.predict_proba(X_test)
     test_acc = accuracy_score(y_test_int, y_test_pred)
     test_precision = precision_score(y_test_int, y_test_pred, average='weighted')
     test_f1 = f1_score(y_test_int, y_test_pred, average='weighted')
@@ -59,9 +62,15 @@ def main() -> None:
     print("\n" + "="*60)
     print("Decision Tree Evaluation Metrics")
     print("="*60)
+    # Advanced Metrics
+    test_log_loss = log_loss(y_test_int, y_test_proba)
+    test_roc_auc = roc_auc_score(y_test_int, y_test_proba, multi_class='ovr', average='weighted')
+
     print(f"Accuracy: {test_acc:.4f}")
     print(f"Precision (Weighted): {test_precision:.4f}")
     print(f"F1-Score (Weighted):  {test_f1:.4f}")
+    print(f"Log Loss:             {test_log_loss:.4f}")
+    print(f"ROC-AUC (Weighted):   {test_roc_auc:.4f}")
     print("\nClassification Report:")
     print(classification_report(y_test_int, y_test_pred, target_names=class_names))
     print("Confusion Matrix:")
@@ -78,6 +87,28 @@ def main() -> None:
     plt.savefig(results_dir / "decision_tree_evaluation.png", dpi=300)
     plt.close()
     print(f"Evaluation metrics saved to {results_dir / 'decision_tree_evaluation.png'}")
+
+    y_test_bin = label_binarize(y_test_int, classes=[0, 1, 2])
+    n_classes = y_test_bin.shape[1]
+    
+    plt.figure(figsize=(8, 6))
+    colors = cycle(['blue', 'red', 'green'])
+    for i, color in zip(range(n_classes), colors):
+        fpr, tpr, _ = roc_curve(y_test_bin[:, i], y_test_proba[:, i])
+        roc_auc_val = auc(fpr, tpr)
+        plt.plot(fpr, tpr, color=color, lw=2,
+                 label=f'ROC curve of class {class_names[i]} (area = {roc_auc_val:0.2f})')
+                 
+    plt.plot([0, 1], [0, 1], 'k--', lw=2)
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title(f'Decision Tree Multi-Class ROC Curve')
+    plt.legend(loc="lower right")
+    plt.savefig(results_dir / "decision_tree_roc_curve.png", dpi=300)
+    plt.close()
+    print(f"ROC curve saved to {results_dir / 'decision_tree_roc_curve.png'}")
 
     # Save model bundle
     bundle = {

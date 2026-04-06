@@ -3,6 +3,7 @@ from flask_cors import CORS
 import joblib
 from pathlib import Path
 import pandas as pd
+import feature_engineering
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -116,7 +117,8 @@ def predict():
             'Tasks_Completed': float(data.get('tasks_completed')),
         }        
         X_raw = pd.DataFrame([features])
-        X = X_raw[FEATURE_COLUMNS] if len(FEATURE_COLUMNS) > 0 else X_raw
+        X_engineered = feature_engineering.apply_feature_engineering(X_raw)
+        X = X_engineered[FEATURE_COLUMNS] if len(FEATURE_COLUMNS) > 0 else X_engineered
         
         # Get predictions from both models
         rf_pred_encoded = rf_model.predict(X)[0]
@@ -192,7 +194,8 @@ def predict_by_id():
     }
     
     X_raw = pd.DataFrame([features])
-    X = X_raw[FEATURE_COLUMNS] if len(FEATURE_COLUMNS) > 0 else X_raw
+    X_engineered = feature_engineering.apply_feature_engineering(X_raw)
+    X = X_engineered[FEATURE_COLUMNS] if len(FEATURE_COLUMNS) > 0 else X_engineered
     
     rf_prediction = rf_encoder.inverse_transform([rf_model.predict(X)[0]])[0]
     xgb_prediction = xgb_encoder.inverse_transform([xgb_model.predict(X)[0]])[0]
