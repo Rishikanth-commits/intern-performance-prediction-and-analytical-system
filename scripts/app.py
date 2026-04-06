@@ -3,6 +3,12 @@ from flask_cors import CORS
 import joblib
 from pathlib import Path
 import pandas as pd
+import sys
+
+# Dynamic path resolution to fix Render Gunicorn import errors
+base_dir = Path(__file__).resolve().parent
+sys.path.append(str(base_dir))
+
 import feature_engineering
 
 # Initialize Flask app
