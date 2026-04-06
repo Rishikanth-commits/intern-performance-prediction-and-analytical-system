@@ -43,6 +43,16 @@ except Exception as e:
 # Feature order (must match training)
 FEATURE_COLUMNS = feature_columns
 
+# Global Data Caching for faster requests
+db_path = project_root / "dataset" / "intern_database.csv"
+intern_db = None
+if db_path.exists():
+    try:
+        intern_db = pd.read_csv(db_path)
+        print(" Intern database cached into memory successfully!")
+    except Exception as e:
+        print(f" Error loading intern database to memory: {e}")
+
 # Load HTML frontend
 def load_frontend_html():
     frontend_path = base_dir / "frontend.html"
@@ -88,6 +98,10 @@ def predict():
         if missing:
             return jsonify({"error": f"Missing fields: {missing}"}), 400
         
+        # Optimize calculations cleanly
+        raw_comm = float(data.get('communication'))
+        comm_scaled = raw_comm / 10.0 if raw_comm > 10 else raw_comm
+        
         # Create feature vector
         features = {
             'Meetings_Scheduled': float(data.get('meetings_scheduled')),
@@ -97,7 +111,7 @@ def predict():
             'Sprint_Completion': float(data.get('sprint_completion')),
             'Task_Quality': float(data.get('task_quality')),
             'On_Time_Delivery': float(data.get('on_time_delivery')),
-            'Communication': float(data.get('communication')) / 10 if float(data.get('communication')) > 10 else float(data.get('communication')),  # Scale if >10
+            'Communication': comm_scaled,
             'Tasks_Assigned': float(data.get('tasks_assigned')),
             'Tasks_Completed': float(data.get('tasks_completed')),
         }        
@@ -150,13 +164,14 @@ def predict_by_id():
     if not intern_id:
         return jsonify({"error": "Please provide an intern ID (e.g., ?id=INT001)"}), 400
         
-    # Read the intern database
-    db_path = project_root / "dataset" / "intern_database.csv"
-    if not db_path.exists():
-        return jsonify({"error": "Intern database not found. Please run generate_intern_db.py first."}), 404
+    # Use globally cached database for instant memory reads
+    global intern_db
+    if intern_db is None:
+        if not db_path.exists():
+            return jsonify({"error": "Intern database not found. Please run generate_intern_db.py first."}), 404
+        intern_db = pd.read_csv(db_path)
         
-    df = pd.read_csv(db_path)
-    intern_data = df[df["Intern_ID"] == intern_id]
+    intern_data = intern_db[intern_db["Intern_ID"] == intern_id]
     
     if intern_data.empty:
         return jsonify({"error": f"Intern with ID {intern_id} not found."}), 404
