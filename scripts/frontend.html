@@ -4,18 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intern Performance Evaluation</title>
+    <title>HR Portal | Intern Performance</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: #0f172a; /* Dark background */
-            color: #f8fafc; /* Light text */
+            /* Premium dark dynamic background */
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            color: #f8fafc;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,26 +28,144 @@
             padding: 20px;
         }
 
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glassmorphism Container */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
         .container {
-            background: #1e293b; /* Slate-800 */
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid #334155;
-            padding: 30px;
+            padding: 40px;
             max-width: 650px;
             width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* Login Section Styles */
+        #loginContainer {
+            max-width: 400px;
+            text-align: center;
+            display: flex;
+            /* Display by default on load */
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #f8fafc;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        button {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(139, 92, 246, 0.8);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Dashboard Styles */
+        #dashboardContainer {
+            display: none;
+            /* Hidden strictly initially */
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 6px;
+            width: auto;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+            transform: none;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #334155;
-            padding-bottom: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header h1 {
-            color: #f8fafc;
-            font-size: 24px;
+            font-size: 26px;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .header p {
@@ -53,55 +176,26 @@
 
         .search-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .search-container input {
-            flex: 1;
-            padding: 12px 15px;
-            background-color: #0f172a;
-            color: #f8fafc;
-            border: 1px solid #475569;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-
-        .search-container input::placeholder {
-            color: #64748b;
-        }
-
-        .search-container button {
-            padding: 0 25px;
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .search-container button:hover {
-            background-color: #2563eb;
-        }
-
-        .hint {
-            text-align: center;
-            font-size: 13px;
-            color: #64748b;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         /* Results Display */
         .results {
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .results.show {
@@ -112,44 +206,52 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #0f172a;
-            padding: 15px 20px;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            margin-bottom: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 18px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 25px;
+            margin-top: 25px;
         }
 
         .intern-profile h3 {
-            color: #f1f5f9;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 600;
         }
 
         .intern-profile span {
-            background: #334155;
+            background: linear-gradient(135deg, #334155, #1e293b);
             color: #e2e8f0;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 6px 14px;
+            border-radius: 6px;
             font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Metrics Grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .metric-item {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 12px 15px;
-            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: transform 0.2s ease;
+        }
+
+        .metric-item:hover {
+            transform: scale(1.02);
+            background: rgba(15, 23, 42, 0.7);
         }
 
         .metric-item span {
@@ -160,7 +262,8 @@
 
         .metric-item strong {
             color: #f8fafc;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 600;
         }
 
         /* Models Container */
@@ -168,77 +271,133 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .model-card {
-            background: #0f172a;
-            border: 1px solid #334155;
-            padding: 15px;
-            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 15px;
+            border-radius: 12px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .model-card:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
         }
 
         .model-name {
             color: #94a3b8;
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 600;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
         }
 
         .model-output {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        /* Colors for Outputs */
-        .High { color: #10b981; } /* Emerald */
-        .Medium { color: #3b82f6; } /* Blue */
-        .Low { color: #ef4444; } /* Red */
+        .High {
+            color: #34d399;
+        }
+
+        .Medium {
+            color: #60a5fa;
+        }
+
+        .Low {
+            color: #f87171;
+        }
 
         /* Final Verdict */
         .verdict-box {
             text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 700;
             color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .verdict-high { background-color: #059669; }
-        .verdict-medium { background-color: #2563eb; }
-        .verdict-low { background-color: #dc2626; }
+        .verdict-high {
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: 1px solid #34d399;
+        }
 
-        /* Loading & Error */
+        .verdict-medium {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border: 1px solid #60a5fa;
+        }
+
+        .verdict-low {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            border: 1px solid #f87171;
+        }
+
+        /* Utilities */
         .loading {
             text-align: center;
             color: #94a3b8;
-            padding: 20px;
+            padding: 30px;
             display: none;
+            font-weight: 500;
         }
 
-        .loading.show { display: block; }
+        .loading.show {
+            display: block;
+        }
 
         .error {
-            background: rgba(220, 38, 38, 0.2);
+            background: rgba(220, 38, 38, 0.15);
             color: #fca5a5;
-            padding: 12px;
-            border: 1px solid rgba(220, 38, 38, 0.4);
-            border-radius: 6px;
-            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 8px;
+            margin-top: 15px;
             display: none;
             text-align: center;
+            font-weight: 500;
         }
 
-        .error.show { display: block; }
+        .error.show {
+            display: block;
+        }
+
+        .hint {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <!-- Login Section -->
+    <div class="container glass-panel" id="loginContainer">
+        <div class="login-header">
+            <h1>HR Login</h1>
+        </div>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="password" id="hrPassword" placeholder="Enter HR Access Code (Try 'HR123')" required>
+                <div class="error" id="loginError" style="margin-top:0;">Invalid access code</div>
+                <button type="submit">Authenticate</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Main Dashboard Section -->
+    <div class="container glass-panel" id="dashboardContainer">
+        <button class="logout-btn" id="logoutBtn">Logout</button>
         <div class="header">
             <h1>Intern Predictive Analytics</h1>
             <p>Evaluation System & Machine Learning Pipeline</p>
@@ -249,11 +408,12 @@
                 <input type="text" id="internId" placeholder="Enter Intern ID (e.g. INT012)" required>
                 <button type="submit">Evaluate</button>
             </div>
-            <div class="hint">Search range: <strong style="color: #cbd5e1;">INT001</strong> to <strong style="color: #cbd5e1;">INT100</strong></div>
+            <div class="hint">Search range: <strong style="color: #cbd5e1;">INT001</strong> to <strong
+                    style="color: #cbd5e1;">INT100</strong></div>
         </form>
 
-        <div class="loading" id="loading">Loading AI Predictions...</div>
-        <div class="error" id="error"></div>
+        <div class="loading" id="loading">Initializing Neural Match...</div>
+        <div class="error" id="apiError"></div>
 
         <div class="results" id="results">
             <div class="intern-profile">
@@ -285,13 +445,74 @@
     </div>
 
     <script>
+        // --- Login Logic ---
+        const loginForm = document.getElementById('loginForm');
+        const hrPasswordInput = document.getElementById('hrPassword');
+        const loginError = document.getElementById('loginError');
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboardContainer = document.getElementById('dashboardContainer');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Secret access code simulation
+        const ACCESS_CODE = "HR123";
+
+        // Check session storage on load
+        if (sessionStorage.getItem('hr_authenticated') === 'true') {
+            showDashboard();
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const pw = hrPasswordInput.value.trim();
+            if (pw === ACCESS_CODE) {
+                sessionStorage.setItem('hr_authenticated', 'true');
+                showDashboard();
+                loginError.classList.remove('show');
+                hrPasswordInput.value = ''; // clear
+            } else {
+                loginError.classList.add('show');
+                hrPasswordInput.value = '';
+
+                // shake effect
+                loginContainer.style.transform = 'translateX(-10px)';
+                setTimeout(() => loginContainer.style.transform = 'translateX(10px)', 100);
+                setTimeout(() => loginContainer.style.transform = 'translateX(-10px)', 200);
+                setTimeout(() => loginContainer.style.transform = 'translateX(0)', 300);
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('hr_authenticated');
+            dashboardContainer.style.display = 'none';
+            loginContainer.style.display = 'flex';
+
+            // clear past results
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('internId').value = '';
+        });
+
+        function showDashboard() {
+            loginContainer.style.display = 'none';
+            dashboardContainer.style.display = 'block';
+
+            // tiny animation
+            dashboardContainer.style.opacity = '0';
+            dashboardContainer.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                dashboardContainer.style.transition = 'all 0.5s ease-out';
+                dashboardContainer.style.opacity = '1';
+                dashboardContainer.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        // --- Dashboard API Logic ---
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const internId = document.getElementById('internId').value.trim().toUpperCase();
             if (!internId) return;
 
             const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
+            const error = document.getElementById('apiError');
             const results = document.getElementById('results');
 
             error.classList.remove('show');

@@ -25,7 +25,7 @@ def is_consistent(row):
             sprint >= 75,
             quality >= 75,
             comm >= 6,
-            attendance >= 85,
+            attendance >= 80,
             on_time_delivery >= 70
         ])
         return high_score_count >= 3
@@ -36,7 +36,7 @@ def is_consistent(row):
             quality <= 60,
             comm <= 4,
             attendance <= 60,
-            on_time_delivery <= 50
+            on_time_delivery <= 60
         ])
         return low_score_count >= 3
     
